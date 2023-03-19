@@ -135,7 +135,7 @@ check_tray_rdy <- function(df,max_bogen_df,skip_empty=FALSE){
   #colnames(nt) [2]<- "n_bögen"
   for(i in 1:length(unique(nt$pfz_data))){
     rdy <-length(which(df$Tray_Nr==unique(nt$pfz_data)[i])) / nt$n_bögen[which(nt$pfz_data==unique(nt$pfz_data)[i])]
-    print(round(rdy,digits = 2))
+    #print(round(rdy,digits = 2))
     
     # return df
     tray_nr <- unique(nt$pfz_data)[i]
@@ -194,19 +194,40 @@ require(stringr)
 # load paths
 path_pfz_data <- "C:/Envimaster/DWA_Sprint/Data_Pfalz" # all pfz data
 path_data <- "C:/Envimaster/DWA_Sprint/Data" # all sprint data without pfz
+path_ale_data <- "C:/Envimaster/DWA_Sprint/Data_Alemanisch" # all alleman
+aleman <- read.xlsx( "C:/Envimaster/DWA_Sprint/Data_Alemanisch/DWA_GeoRef_full.xlsx")
 max_n_bogen <- read.xlsx("C:/Envimaster/DWA_Sprint/R/Alleman_Tray_Max.xlsx")
 max_n_bogen2 <- read.xlsx("C:/Envimaster/DWA_Sprint/R/Pfalz_Tray_max.xlsx")
 
 # test with get_max function (used test as varname)
-colnames(max_n_bogen)
-colnames(test)[1:2] <-c("pfz_data","n_bögen")
+colnames(max_I_III)
+colnames(max_I_III)[1:2] <-c("pfz_data","n_bögen")
+
+colnames(aleman)
+df <- aleman
+df$Tray_Nr <- sapply(df$Digi_Index,function(x){
+  spl <-stringr::str_split(x,"_")
+  traynr <- paste0(spl[[1]][1],"_",spl[[1]][2])  
+})
+
+aleman <-df
 
 # run fun
-dfc <- DWA_sprint_stats(path_data)
-check_tray_rdy(df = dfc,max_bogen_df =test, T)
+dfc <- DWA_sprint_stats(path_pfz_data)
+dfc <- DWA_sprint_stats(path_data = path_ale_data)
+check_tray_rdy(df = dfc,max_bogen_df =max_I_III, T)
+
 HiWi_stats(dfc)
+
+
+
+
+
+alleman_full
+dfc[which(dfc$Tray_Nr=="III_58"),]
+dfc[which(dfc$Digi_Index=="II_58_0067"),]
 
 #write.xlsx(dfc,"C:/Envimaster/DWA_Sprint/GeoRef/Data_GeoRef/pfalz_places.xlsx")
 
-
-
+any(dfc$Digi_Index%in%test$Digi_Index)
+dfc[which(dfc$Digi_Index%in%test$Digi_Index),]

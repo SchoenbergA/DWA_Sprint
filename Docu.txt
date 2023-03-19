@@ -1,0 +1,16 @@
+### DWA Sprint Workflow
+
+# Data for Pfalz and further Trays exclude allemanisch
+
+- Hiwi transliteration of placenames
+- upload progress per email
+- check an solve issues via R
+- output full checked and cleaned data
+
+# Workflow for allemanisch
+
+- a lot of places already done (but not all places in all grids in each tray)
+- seletion of those trays in allemanisch area which contain >10% rdy
+- add digi_index for sheets in those trays which are open
+- merge open and rdy sheets
+- AL/JH/VD transliteration of places
